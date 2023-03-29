@@ -1,0 +1,50 @@
+﻿@model CryptoSiteAsp.Models.LoginModel
+
+<!-- Modal -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="alert_placeholder_login">
+                </div>
+
+                <form id="LoginForm" asp-controller="UserAuth" asp-action="Login">
+                    <input type="hidden" asp-for="LoginInValid"/>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="input-group row p-2">
+                        <label asp-for="Email" class="col-md-4 col-form-label"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Email" placeholder="Email Address" class="form-control"/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group row p-2">
+                        <label asp-for="Password" class="col-md-4 col-form-label"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Password" placeholder="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 offset-md-4">
+                            <div class="form-check">
+                                <label asp-for="RememberMe" class="col-form-label"></label>
+                                <input asp-for="RememberMe" class="form-check-input" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Log In</button>
+            </div>
+        </div>
+    </div>
