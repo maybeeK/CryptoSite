@@ -8,14 +8,14 @@
 </div>
 
 
-<div class="modal fade" id="LoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <partial name="_UserLoginPartial" model="new LoginModel{
             Email = String.Empty,
             Password = String.Empty,
             RememberMe = false
         }">
 </div>
-<div class="modal fade" id="RegistrationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="RegistrationModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <partial name="_UserRegistrationPartial" model="new RegistrationModel{
             Email = String.Empty,
             FirstName = String.Empty,
@@ -28,6 +28,7 @@
 
 @section Scripts{
     @{
+        await Html.RenderPartialAsync("_AuthScriptsPartial");
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

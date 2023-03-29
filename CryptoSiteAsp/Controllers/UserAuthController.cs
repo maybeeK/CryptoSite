@@ -43,7 +43,7 @@ namespace CryptoSiteAsp.Controllers
 					ModelState.AddModelError(string.Empty, "Invalid login attempt");
 				}
 			}
-			return PartialView("_UserLoginPartial", loginModel); //TODO login partial
+			return PartialView("_UserLoginPartial", loginModel);
 		}
 
 		[AllowAnonymous]
@@ -87,7 +87,7 @@ namespace CryptoSiteAsp.Controllers
 
 					await _signInManager.SignInAsync(user, isPersistent: false);
 
-					return PartialView("_UserRegistrationPartial", registrationModel); //TO DO registration partial
+					return PartialView("_UserRegistrationPartial", registrationModel);
 
 				}
 
@@ -95,7 +95,7 @@ namespace CryptoSiteAsp.Controllers
 
 			}
 
-			return PartialView("_UserRegistrationPartial", registrationModel); //TO DO registration partial
+			return PartialView("_UserRegistrationPartial", registrationModel);
 
 		}
 
