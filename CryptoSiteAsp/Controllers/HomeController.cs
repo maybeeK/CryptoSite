@@ -1,4 +1,5 @@
-﻿using CryptoSiteAsp.Models;
+﻿using CryptoSiteAsp.Entities;
+using CryptoSiteAsp.Models;
 using CryptoSiteAsp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,25 @@ namespace CryptoSiteAsp.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var topCurrenciesList = await _cryptoService.GetTopNCurrency(5);
-			HomeIndexViewModel indexViewModel = new() {CryptoCurrencyCoins = topCurrenciesList };
+			HomeIndexViewModel viewModel = new() {CryptoCurrencyCoins = topCurrenciesList };
 
-			return View(indexViewModel);
+			return View(viewModel);
 		}
 
-        public async Task<IActionResult> SearchCrypto()
+        public async Task<IActionResult> SearchCrypto( )
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchCrypto(SearchCryptoViewModel viewModel)
+        {
+			if (ModelState.IsValid)
+			{
+				var coins = await	_cryptoService.GetCurrencyByName(viewModel.CoinName);
+				viewModel.CryptoCurrencyCoins = coins;
+			}
+			return View(viewModel);
         }
 
         [Authorize]

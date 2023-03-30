@@ -1,5 +1,24 @@
-﻿<div class="text-center text-black">
+﻿@model SearchCryptoViewModel
+
+
+<div class="text-center text-black">
     <h1>
-        SearchCrypto
+        Search Crypto
     </h1>
 </div>
+
+<br />
+
+<form asp-controller="Home" asp-action="SearchCrypto">
+    <div class="input-group">
+        <div asp-validation-summary="ModelOnly"></div>
+        <input asp-for="CoinName" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+</form>
+
+<br />
+
+@if(Model != null && Model.CryptoCurrencyCoins.Count() > 0){
+    <partial name="_TableCoinPartial" model="Model.CryptoCurrencyCoins" />
+}

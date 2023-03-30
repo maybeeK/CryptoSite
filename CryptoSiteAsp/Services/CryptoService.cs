@@ -1,5 +1,6 @@
 ﻿using CryptoSiteAsp.Entities;
 using CryptoSiteAsp.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace CryptoSiteAsp.Services
 {
@@ -10,19 +11,19 @@ namespace CryptoSiteAsp.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<CryptoCurrencyCoin> GetCurrencyByName(string name)
+        public async Task<IEnumerable<CryptoCurrencyCoin>> GetCurrencyByName(string name)
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"https://api.coincap.io/v2/assets/{name.ToLower()}");
+                var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
                 if (responce.IsSuccessStatusCode)
                 {
                     if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(CryptoCurrencyCoin);
+                        return default(IEnumerable<CryptoCurrencyCoin>);
                     }
-                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<CryptoCurrencyCoin>>();
-                    return result.Data;
+                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>> ();
+                    return result.Data.Where(e=>e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
                 }
                 else
                 {
