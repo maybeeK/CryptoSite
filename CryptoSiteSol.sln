@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoSiteAsp", "CryptoSiteAsp\CryptoSiteAsp.csproj", "{B8C3BAF8-4C74-49A5-A2DF-5080637EB26B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoSiteAsp", "CryptoSiteAsp\CryptoSiteAsp.csproj", "{B8C3BAF8-4C74-49A5-A2DF-5080637EB26B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

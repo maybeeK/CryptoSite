@@ -1,0 +1,21 @@
+﻿@using CryptoSiteAsp.Entities
+
+@model IEnumerable<CryptoCurrencyCoin>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Volume per 24h</th>
+			<th>Price change</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+			@foreach (var Coin in Model)
+			{
+				<partial name="_TableCoinRowPartial" model="Coin"/>
+			}
+	</tbody>
+</table>

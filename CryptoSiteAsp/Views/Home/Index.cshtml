@@ -1,26 +1,27 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using CryptoSiteAsp.Data;
-
+@model HomeIndexViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <div class="text-center text-black">
-        <h1>
-            Logged In
-        </h1>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h2>Welcome to Crypto Explorer!</h2>
     </div>
+</div>
+<br />
+@if (Model.CryptoCurrencyCoins != null && Model.CryptoCurrencyCoins.Count() > 0)
+{
+    <partial name="_TableCoinPartial" model="Model.CryptoCurrencyCoins" />
 }
 else
 {
-    <div class="text-center text-black">
-        <h1>
-            Not Logged In
-        </h1>
+    <div class="text-center text-light">
+        Can't load coins
     </div>
 }
 

@@ -1,4 +1,6 @@
 using CryptoSiteAsp.Data;
+using CryptoSiteAsp.Services;
+using CryptoSiteAsp.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,8 @@ namespace CryptoSiteAsp
 			builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddScoped<HttpClient, HttpClient>();
+			builder.Services.AddScoped<ICryptoService, CryptoService>();
 
 			var app = builder.Build();
 

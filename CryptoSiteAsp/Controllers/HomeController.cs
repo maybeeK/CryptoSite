@@ -1,4 +1,6 @@
 ﻿using CryptoSiteAsp.Models;
+using CryptoSiteAsp.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +9,20 @@ namespace CryptoSiteAsp.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly ICryptoService _cryptoService;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, ICryptoService cryptoService)
 		{
 			_logger = logger;
+			_cryptoService = cryptoService;
 		}
 
 		public async Task<IActionResult> Index()
 		{
-			return View();
+			var topCurrenciesList = await _cryptoService.GetTopNCurrency(5);
+			HomeIndexViewModel indexViewModel = new() {CryptoCurrencyCoins = topCurrenciesList };
+
+			return View(indexViewModel);
 		}
 
         public async Task<IActionResult> SearchCrypto()
@@ -23,6 +30,7 @@ namespace CryptoSiteAsp.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Favourite()
         {
             return View();
