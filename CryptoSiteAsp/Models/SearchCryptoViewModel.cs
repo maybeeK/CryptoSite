@@ -6,5 +6,7 @@ namespace CryptoSiteAsp.Models
     {
         public string? CoinName { get; set; }
         public IEnumerable<CryptoCurrencyCoin>? CryptoCurrencyCoins { get; set; }
+        public IEnumerable<UserCryptoCurrency>? UserCryptoCurrencies { get; set; }
+
     }
 }

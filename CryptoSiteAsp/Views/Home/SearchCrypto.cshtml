@@ -20,5 +20,8 @@
 <br />
 
 @if(Model != null && Model.CryptoCurrencyCoins.Count() > 0){
-    <partial name="_TableCoinPartial" model="Model.CryptoCurrencyCoins" />
+    <partial name="_TableCoinPartial" model="new UserCryptoTableViewModel{
+            CryptoCurrencyCoins = Model.CryptoCurrencyCoins,
+            UserCryptoCurrencies = Model.UserCryptoCurrencies
+        }" />
 }

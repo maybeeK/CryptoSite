@@ -1,8 +1,11 @@
-﻿using CryptoSiteAsp.Entities;
+﻿using CryptoSiteAsp.Data;
+using CryptoSiteAsp.Entities;
 using CryptoSiteAsp.Models;
 using CryptoSiteAsp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CryptoSiteAsp.Controllers
@@ -11,17 +14,24 @@ namespace CryptoSiteAsp.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly ICryptoService _cryptoService;
-
-		public HomeController(ILogger<HomeController> logger, ICryptoService cryptoService)
+		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
+		public HomeController(ILogger<HomeController> logger, ICryptoService cryptoService, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_logger = logger;
 			_cryptoService = cryptoService;
+			_context = context;
+			_userManager = userManager;
 		}
 
 		public async Task<IActionResult> Index()
 		{
 			var topCurrenciesList = await _cryptoService.GetTopNCurrency(5);
-			HomeIndexViewModel viewModel = new() {CryptoCurrencyCoins = topCurrenciesList };
+			HomeIndexViewModel viewModel = new()
+			{
+				CryptoCurrencyCoins = topCurrenciesList,
+				UserCryptoCurrencies = _context.userCryptos.Where(e=>e.UserId==_userManager.GetUserId(User))
+			};
 
 			return View(viewModel);
 		}
@@ -38,6 +48,7 @@ namespace CryptoSiteAsp.Controllers
 			{
 				var coins = await	_cryptoService.GetCurrencyByName(viewModel.CoinName);
 				viewModel.CryptoCurrencyCoins = coins;
+				viewModel.UserCryptoCurrencies = _context.userCryptos.Where(e => e.UserId == _userManager.GetUserId(User));
 			}
 			return View(viewModel);
         }
