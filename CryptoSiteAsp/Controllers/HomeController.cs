@@ -56,7 +56,7 @@ namespace CryptoSiteAsp.Controllers
         [Authorize]
         public async Task<IActionResult> Favourite(FavouriteViewModel favouriteViewModel)
         {
-			favouriteViewModel.UserCryptoCurrencies = await _context.userCryptos.ToListAsync();
+			favouriteViewModel.UserCryptoCurrencies = await _context.userCryptos.Where(e=>e.UserId==_userManager.GetUserId(User)).ToListAsync();
 			var coins = new List<CryptoCurrencyCoin>();
 			foreach (var item in favouriteViewModel.UserCryptoCurrencies)
 			{
