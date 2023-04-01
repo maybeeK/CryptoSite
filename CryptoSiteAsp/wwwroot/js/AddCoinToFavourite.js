@@ -10,7 +10,8 @@
     };
 
     if (userModel.Id == null) {
-        location.href = "/Identity/Account/Login";
+        $(this).prop('checked', false);
+        $("#LoginModal").modal('show');
         return;
     }
 
