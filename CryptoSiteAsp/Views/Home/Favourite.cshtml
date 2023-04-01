@@ -1,5 +1,28 @@
-﻿<div class="text-center text-black">
-    <h1>
-        Favourite
-    </h1>
-</div>
+﻿@model FavouriteViewModel
+
+
+@if (Model.CryptoCurrencyCoins.Count() > 0)
+{
+
+    <div class="text-center text-black">
+        <h1>
+            Your Favourite Coins
+        </h1>
+    </div>
+
+    <br />
+
+    <partial name="_TableCoinPartial" model="new UserCryptoTableViewModel{
+    CryptoCurrencyCoins = Model.CryptoCurrencyCoins,
+    UserCryptoCurrencies = Model.UserCryptoCurrencies
+    }" />
+}
+else
+{
+    <div class="text-center text-dark">
+        <h1>
+            You have no favourite coins yet!
+        </h1>
+        <a class="btn btn-link text-dark" asp-controller="Home" asp-action="SearchCrypto"><i class="fa-solid fa-magnifying-glass"></i> Search your crypto NOW</a>
+    </div>
+}
