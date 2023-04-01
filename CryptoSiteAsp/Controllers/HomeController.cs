@@ -54,9 +54,17 @@ namespace CryptoSiteAsp.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Favourite()
+        public async Task<IActionResult> Favourite(FavouriteViewModel favouriteViewModel)
         {
-            return View();
+			favouriteViewModel.UserCryptoCurrencies = await _context.userCryptos.ToListAsync();
+			var coins = new List<CryptoCurrencyCoin>();
+			foreach (var item in favouriteViewModel.UserCryptoCurrencies)
+			{
+				var coin = (await _cryptoService.GetCurrencyByName(item.CryptoCurrencyName)).First(e=>e.Name == item.CryptoCurrencyName);
+				coins.Add(coin);
+			}
+			favouriteViewModel.CryptoCurrencyCoins = coins;
+            return View(favouriteViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
