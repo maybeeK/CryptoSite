@@ -1,4 +1,4 @@
-﻿$("input[type='checkbox']").bind("change", function () {
+﻿$("input[id='userCoinCheckbox']").bind("change", function () {
     var url = "/Favourite";
     var mode;
     var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
@@ -34,6 +34,4 @@
             }
         }
     );
-
-    // ajax code here
 });
