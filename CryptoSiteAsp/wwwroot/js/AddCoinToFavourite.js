@@ -1,4 +1,4 @@
-﻿$("input[id='userCoinCheckbox']").bind("change", function () {
+﻿$("input[name='userCoinCheckbox']").bind("change", function () {
     var url = "/Favourite";
     var mode;
     var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
@@ -6,7 +6,7 @@
     var userModel = {
         __RequestVerificationToken: antiForgeryToken,
         Id: $(this).attr("value"),
-        CoinName: $(this).attr("name")
+        CoinName: $(this).attr("id")
     };
 
     if (userModel.Id == null) {

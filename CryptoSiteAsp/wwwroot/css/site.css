@@ -20,3 +20,48 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Custom checkbox*/
+
+
+.customChechbox {
+    position: absolute;
+    left: -100vw;
+}
+
+.checkboxLabel {
+    color: #aab8c2;
+    cursor: pointer;
+    font-size: 1em;
+    align-self: center;
+    transition: color 0.2s ease-in-out;
+}
+
+    .checkboxLabel:hover {
+        color: grey;
+    }
+
+    .checkboxLabel::selection {
+        color: none;
+        background: transparent;
+    }
+
+    .checkboxLabel::-moz-selection {
+        color: none;
+        background: transparent;
+    }
+
+.customChechbox:checked + .checkboxLabel {
+    color: #e2264d;
+    will-change: font-size;
+    animation: heart 1s cubic-bezier(.17, .89, .32, 1.49);
+}
+
+
+
+@keyframes heart {
+    0%, 17.5% {
+        font-size: 0;
+    }
+}
+  
