@@ -29,6 +29,9 @@
             type: "POST",
             url: url,
             data: userModel,
+            success: function () {
+                location.reload();
+            },
             error: function (xhr, ajaxOptions, thrownError) {
                     var errorText = "Status: " + xhr.status + " - " + xhr.statusText;
                     console.error(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responceText);
