@@ -27,7 +27,8 @@ namespace CryptoSiteAsp.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var topCurrenciesList = await _cryptoService.GetTopNCurrency(5);
+			var topCurrenciesList = await _cryptoService.GetTopNCurrency(10);
+
 			HomeIndexViewModel viewModel = new()
 			{
 				CryptoCurrencyCoins = topCurrenciesList,
