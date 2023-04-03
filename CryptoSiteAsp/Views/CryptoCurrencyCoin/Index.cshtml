@@ -4,9 +4,14 @@
 
 @{
     ViewData["Title"] = Model.Symbol;
+    var imgLink = $"https://assets.coincap.io/assets/icons/{Model.Symbol.ToLower()}@2x.png";
 }
 
-<h1>@Model.Name</h1>
+<div id="bg1" class="col-sm-6 background-1 rounded-corners">
+    <img class="rounded-corners" src="@imgLink">
+</div>
+
+<hr />
 
 <div>
     <dl class="row">
