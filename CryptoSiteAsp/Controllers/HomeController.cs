@@ -1,4 +1,5 @@
-﻿using CryptoSiteAsp.Data;
+﻿using CryptoSiteAsp.Comparers;
+using CryptoSiteAsp.Data;
 using CryptoSiteAsp.Entities;
 using CryptoSiteAsp.Models;
 using CryptoSiteAsp.Services.Interfaces;
@@ -46,8 +47,13 @@ namespace CryptoSiteAsp.Controllers
         {
 			if (ModelState.IsValid)
 			{
-				var coins = await	_cryptoService.GetCurrencyByName(viewModel.CoinName);
-				viewModel.CryptoCurrencyCoins = coins;
+				var coins = (await	_cryptoService.GetCurrencyByName(viewModel.CoinName)).ToList();
+				var coinFoundBySymbol = await _cryptoService.GetCurrencyBySymbol(viewModel.CoinName);
+				if (coinFoundBySymbol != null)
+				{
+					coins.Add(coinFoundBySymbol);
+				}
+				viewModel.CryptoCurrencyCoins = coins.ToHashSet(new CryptoCurrencyCoinComparer());
 				viewModel.UserCryptoCurrencies = _context.userCryptos.Where(e => e.UserId == _userManager.GetUserId(User));
 			}
 			return View(viewModel);
