@@ -63,5 +63,32 @@ namespace CryptoSiteAsp.Services
                 throw;
             }
         }
-    }
+
+		public async Task<CryptoCurrencyCoin> GetCurrencyBySymbol(string symbol)
+		{
+            try
+            {
+				var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
+				if (responce.IsSuccessStatusCode)
+				{
+					if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
+					{
+						return default;
+					}
+					var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>>();
+					return result.Data.FirstOrDefault(e=>e.Symbol.ToLower()==symbol.ToLower());
+				}
+				else
+				{
+					var msg = await responce.Content.ReadAsStringAsync();
+					throw new Exception(msg);
+				}
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+		}
+	}
 }
