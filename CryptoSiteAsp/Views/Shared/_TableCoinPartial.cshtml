@@ -3,58 +3,56 @@
 
 @model UserCryptoTableViewModel
 
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th class="text-center">Name</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">Volume per 24h</th>
-			<th class="text-center">Price change</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@if (Model.CryptoCurrencyCoins != null)
+
+<table class="rwd-table">
+	<tr>
+		<th class="text-dark">Name</th>
+		<th class="text-dark">Price</th>
+		<th class="text-dark">Volume per 24h</th>
+		<th class="text-dark">Price change</th>
+		<th class="text-dark">Favourite</th>
+	</tr>
+	@if (Model.CryptoCurrencyCoins != null)
+	{
+		@foreach (var Coin in Model.CryptoCurrencyCoins)
 		{
-			@foreach (var Coin in Model.CryptoCurrencyCoins)
-			{
-				<tr>
-					<td>
-						<a class="nav-link text-dark" asp-controller="CryptoCurrencyCoin" asp-action="Index" asp-route-coinSymbol="@Coin?.Symbol">@Coin.Name</a>
+			<tr>
+				<td data-th="Name">
+					<a class="text-dark" style="text-decoration: none" asp-controller="CryptoCurrencyCoin" asp-action="Index" asp-route-coinSymbol="@Coin?.Symbol">@Coin.Name</a>
+				</td>
+
+				<td data-th="Price" class="text-dark">
+					$ @Coin?.PriceUsd.Value.ToString("0.000")
+				</td>
+
+				<td data-th="Volume per 24h" class="text-dark">
+					$ @Coin?.VolumeUsd24Hr.Value.ToString("0.000")
+				</td>
+
+				@if (Coin.ChangePercent24Hr > 0)
+				{
+					<td data-th="Price change" class="text-success">
+						<i class="fas fa-caret-up me-1"></i>@Coin.ChangePercent24Hr.Value.ToString("0.000")%
 					</td>
-					<td class="text-center">
-						$ @Coin?.PriceUsd.Value.ToString("0.000")
+				}
+				else
+				{
+					<td data-th="Price change" class="text-danger">
+						<i class="fas fa-caret-down me-1"></i>@Coin.ChangePercent24Hr.Value.ToString("0.000")%
 					</td>
-					<td class="text-center">
-						$ @Coin?.VolumeUsd24Hr.Value.ToString("0.000")
-					</td>
-					@if (Coin.ChangePercent24Hr > 0)
+				}
+				<td data-th="Favourite">
+					@if (Model.CryptoCurrencyCoins != null && Model.UserCryptoCurrencies.Any(e => e.CryptoCurrencyName == Coin.Name))
 					{
-						<td class="text-success text-center">
-							<i class="fas fa-caret-up me-1"></i>@Coin.ChangePercent24Hr.Value.ToString("0.000")%
-						</td>
+						<input class="form-check-input customChechbox" type="checkbox" checked name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
 					}
 					else
 					{
-						<td class="text-danger text-center">
-							<i class="fas fa-caret-down me-1"></i>@Coin.ChangePercent24Hr.Value.ToString("0.000")%
-						</td>
+						<input class="form-check-input customChechbox" type="checkbox" name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
 					}
-					<td>
-						<div class="form-check">
-							@if (Model.CryptoCurrencyCoins != null && Model.UserCryptoCurrencies.Any(e => e.CryptoCurrencyName == Coin.Name))
-							{
-								<input class="form-check-input customChechbox" type="checkbox" checked name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
-							}
-							else
-							{
-								<input class="form-check-input customChechbox" type="checkbox" name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
-							}
-							<label class="checkboxLabel" for="@Coin.Name">&#9829</label>
-						</div>
-					</td>
-				</tr>
-			}
+					<label class="checkboxLabel" for="@Coin.Name">&#9829</label>
+				</td>
+			</tr>
 		}
-	</tbody>
+	}
 </table>
