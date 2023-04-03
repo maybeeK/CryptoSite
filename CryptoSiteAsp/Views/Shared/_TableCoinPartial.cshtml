@@ -20,7 +20,7 @@
 			{
 				<tr>
 					<td>
-						<a class="nav-link" asp-controller="CryptoCurrencyCoin" asp-action="Index" asp-route-coinSymbol="@Coin?.Symbol">@Coin.Name</a>
+						<a class="nav-link text-dark" asp-controller="CryptoCurrencyCoin" asp-action="Index" asp-route-coinSymbol="@Coin?.Symbol">@Coin.Name</a>
 					</td>
 					<td class="text-center">
 						$ @Coin?.PriceUsd.Value.ToString("0.000")
