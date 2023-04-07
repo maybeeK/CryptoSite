@@ -1,0 +1,20 @@
+﻿@using CryptoSiteAsp.Entities
+@model IEnumerable<CryptoCurrencyCoinCandlestickData>
+
+@{
+    decimal avarageVolume = Model.Average(e=>e.Volume);
+}
+
+<table class="charts-css column show-data-on-hover candle-table">
+    <caption>Volume changes</caption>
+    <tbody>
+        @foreach (var item in Model.Reverse())
+        {
+            <tr>
+                <td style="--size:calc( @((int)item.Volume) / @((int)avarageVolume) ); margin: 0px 5px 0px 5px;">
+                    <span class="data">@((item.Volume/1000).ToString("0.000"))K</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
