@@ -1,6 +1,8 @@
-﻿using CryptoSiteAsp.Entities;
+﻿using Azure;
+using CryptoSiteAsp.Entities;
 using CryptoSiteAsp.Services.Interfaces;
 using System.Collections.Generic;
+using CryptoSiteAsp.Extentions;
 
 namespace CryptoSiteAsp.Services
 {
@@ -89,6 +91,36 @@ namespace CryptoSiteAsp.Services
 
                 throw;
             }
+		}
+
+		public async Task<IEnumerable<CryptoCurrencyCoinCandlestickData>> GetCurrencyCandleStickData(string symbol)
+		{
+            try
+            {
+                string pair = symbol.ToUpper()=="USDT" ? $"BUSDUSDT" : $"{symbol.ToUpper()}USDT";
+                var url = $"https://api.binance.com/api/v3/klines?symbol={pair}&interval=1h&limit=10";
+
+                var responce = await _httpClient.GetAsync(url);
+				if (responce.IsSuccessStatusCode)
+				{
+					if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
+					{
+						return default;
+					}
+					var result = await responce.Content.ReadFromJsonAsync<IEnumerable<List<decimal>>>();
+                    var qqq = result.ConvertToCryptoCurrencyCoinCandlestickDataList();
+					return result.ConvertToCryptoCurrencyCoinCandlestickDataList();
+				}
+				else
+				{
+					var msg = await responce.Content.ReadAsStringAsync();
+					throw new Exception(msg);
+				}
+			}
+            catch (Exception)
+            {
+                throw;
+			}
 		}
 	}
 }

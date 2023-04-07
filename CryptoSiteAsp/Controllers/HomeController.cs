@@ -17,7 +17,10 @@ namespace CryptoSiteAsp.Controllers
 		private readonly ICryptoService _cryptoService;
 		private readonly ApplicationDbContext _context;
 		private readonly UserManager<ApplicationUser> _userManager;
-		public HomeController(ILogger<HomeController> logger, ICryptoService cryptoService, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+		public HomeController(ILogger<HomeController> logger,
+			ICryptoService cryptoService,
+			ApplicationDbContext context,
+			UserManager<ApplicationUser> userManager)
 		{
 			_logger = logger;
 			_cryptoService = cryptoService;

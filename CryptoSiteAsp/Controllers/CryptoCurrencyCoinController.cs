@@ -23,5 +23,17 @@ namespace CryptoSiteAsp.Controllers
 				return View(coin);
 			}
 		}
+		public async Task<IActionResult> GetCandles(string coinSymbol)
+		{
+			var candles = await _cryptoService.GetCurrencyCandleStickData(coinSymbol);
+			if (candles == null)
+			{
+				return BadRequest();
+			}
+			else
+			{
+				return PartialView("_CandlesPartial",candles);
+			}
+		}
 	}
 }
