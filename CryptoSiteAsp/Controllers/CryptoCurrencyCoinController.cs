@@ -13,7 +13,7 @@ namespace CryptoSiteAsp.Controllers
 
 		public async Task<IActionResult> Index(string coinSymbol)
 		{
-			var coin = await _cryptoService.GetCurrencyBySymbol(coinSymbol);
+			var coin = await _cryptoService.GetCurrencyById(coinSymbol);
 			if (coin == null)
 			{
 				return BadRequest();

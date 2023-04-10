@@ -20,10 +20,10 @@ namespace CryptoSiteAsp.Services
             try
             {
                 var coins = await GetMaxCurrenceis();
-                var coinByName = await GetCoinByName(name);
-                if (coinByName != null)
+                var coinById = await GetCurrencyById(name);
+                if (coinById != null)
                 {
-                    coins = coins.Append(coinByName);
+                    coins = coins.Append(coinById);
                 }
                 var tt = coins.Where(e => e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
                 return coins.Where(e => e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
@@ -117,11 +117,11 @@ namespace CryptoSiteAsp.Services
                 throw;
             }
         }
-        private async Task<CryptoCurrencyCoin> GetCoinByName(string name)
+        public async Task<CryptoCurrencyCoin> GetCurrencyById(string id)
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"https://api.coincap.io/v2/assets/{name.ToLower()}");
+                var responce = await _httpClient.GetAsync($"https://api.coincap.io/v2/assets/{id.ToLower()}");
                 if (responce.IsSuccessStatusCode)
                 {
                     if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -139,5 +139,5 @@ namespace CryptoSiteAsp.Services
                 throw;
             }
         }
-	}
+    }
 }
