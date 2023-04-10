@@ -8,10 +8,10 @@
 <table class="charts-css column show-data-on-hover candle-table">
     <caption>Volume changes</caption>
     <tbody>
-        @foreach (var item in Model.Reverse())
+        @foreach (var item in Model)
         {
             <tr>
-                <td style="--size:calc( @((int)item.Volume) / @((int)avarageVolume) ); margin: 0px 5px 0px 5px;">
+                <td style="--size:calc( @((int)item.Volume) / @((int)avarageVolume) ); margin: 0px 5px 0px 5px; background: rgb(159, 205, 222);" class="mh-100">
                     <span class="data">@((item.Volume/1000).ToString("0.000"))K</span>
                 </td>
             </tr>
