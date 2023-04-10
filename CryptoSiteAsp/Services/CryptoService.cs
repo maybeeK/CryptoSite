@@ -3,6 +3,8 @@ using CryptoSiteAsp.Entities;
 using CryptoSiteAsp.Services.Interfaces;
 using System.Collections.Generic;
 using CryptoSiteAsp.Extentions;
+using CryptoSiteAsp.Comparers;
+using CryptoSiteAsp.Controllers;
 
 namespace CryptoSiteAsp.Services
 {
@@ -17,21 +19,14 @@ namespace CryptoSiteAsp.Services
         {
             try
             {
-                var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
-                if (responce.IsSuccessStatusCode)
+                var coins = await GetMaxCurrenceis();
+                var coinByName = await GetCoinByName(name);
+                if (coinByName != null)
                 {
-                    if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
-                    {
-                        return default(IEnumerable<CryptoCurrencyCoin>);
-                    }
-                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>> ();
-                    return result.Data.Where(e=>e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
+                    coins = coins.Append(coinByName);
                 }
-                else
-                {
-                    var msg = await responce.Content.ReadAsStringAsync();
-                    throw new Exception(msg);
-                }
+                var tt = coins.Where(e => e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
+                return coins.Where(e => e.Name.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase));
             }
             catch (Exception)
             {
@@ -44,21 +39,8 @@ namespace CryptoSiteAsp.Services
         {
             try
             {
-                var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
-                if (responce.IsSuccessStatusCode)
-                {
-                    if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
-                    {
-                        return Enumerable.Empty<CryptoCurrencyCoin>();
-                    }
-                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>>();
-                    return result.Data.Take(amount);
-                }
-                else
-                {
-                    var msg = await responce.Content.ReadAsStringAsync();
-                    throw new Exception(msg);
-                }
+                var coins = await GetMaxCurrenceis();
+                return coins.Take(amount);
             }
             catch (Exception)
             {
@@ -70,22 +52,9 @@ namespace CryptoSiteAsp.Services
 		{
             try
             {
-				var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
-				if (responce.IsSuccessStatusCode)
-				{
-					if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
-					{
-						return default;
-					}
-					var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>>();
-					return result.Data.FirstOrDefault(e=>e.Symbol.ToLower()==symbol.ToLower());
-				}
-				else
-				{
-					var msg = await responce.Content.ReadAsStringAsync();
-					throw new Exception(msg);
-				}
-			}
+				var coins = await GetMaxCurrenceis();
+                return coins.FirstOrDefault(e => e.Symbol.ToLower() == symbol.ToLower());
+            }
             catch (Exception)
             {
 
@@ -122,5 +91,53 @@ namespace CryptoSiteAsp.Services
                 throw;
 			}
 		}
+        private async Task<IEnumerable<CryptoCurrencyCoin>> GetMaxCurrenceis()
+        {
+            try
+            {
+                var responce = await _httpClient.GetAsync("https://api.coincap.io/v2/assets");
+                if (responce.IsSuccessStatusCode)
+                {
+                    if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(IEnumerable<CryptoCurrencyCoin>);
+                    }
+                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<List<CryptoCurrencyCoin>>>();
+                    return result.Data;
+                }
+                else
+                {
+                    var msg = await responce.Content.ReadAsStringAsync();
+                    throw new Exception(msg);
+                }
+            }
+            catch (Exception)
+            {
+                //Log
+                throw;
+            }
+        }
+        private async Task<CryptoCurrencyCoin> GetCoinByName(string name)
+        {
+            try
+            {
+                var responce = await _httpClient.GetAsync($"https://api.coincap.io/v2/assets/{name.ToLower()}");
+                if (responce.IsSuccessStatusCode)
+                {
+                    if (responce.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(CryptoCurrencyCoin);
+                    }
+                    var result = await responce.Content.ReadFromJsonAsync<APIResponceCryptoCurrencyCoin<CryptoCurrencyCoin>>();
+                    return result.Data;
+                }
+                return default(CryptoCurrencyCoin);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 	}
 }
