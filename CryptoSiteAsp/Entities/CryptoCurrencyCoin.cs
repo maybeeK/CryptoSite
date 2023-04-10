@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CryptoSiteAsp.Entities
 {
@@ -23,15 +24,18 @@ namespace CryptoSiteAsp.Entities
         public decimal? MaxSupply { get; set; }
 
         [JsonPropertyName("marketCapUsd")]
+        [Display(Name = "Market Cap")]
         public decimal? MarketCapUsd { get; set; }
 
         [JsonPropertyName("volumeUsd24Hr")]
         public decimal? VolumeUsd24Hr { get; set; }
 
         [JsonPropertyName("priceUsd")]
+        [Display(Name = "Price (USD)")]
         public decimal? PriceUsd { get; set; }
 
         [JsonPropertyName("changePercent24Hr")]
+        [Display(Name = "Price change in 24h")]
         public decimal? ChangePercent24Hr { get; set; }
 
         [JsonPropertyName("vwap24Hr")]
