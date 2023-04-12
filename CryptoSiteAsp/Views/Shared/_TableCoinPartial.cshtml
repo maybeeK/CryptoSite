@@ -42,15 +42,7 @@
 					</td>
 				}
 				<td data-th="Favourite">
-					@if (Model.CryptoCurrencyCoins != null && Model.UserCryptoCurrencies.Any(e => e.CryptoCurrencyName == Coin.Name))
-					{
-						<input class="form-check-input customChechbox" type="checkbox" checked name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
-					}
-					else
-					{
-						<input class="form-check-input customChechbox" type="checkbox" name="userCoinCheckbox" id="@Coin.Name" value="@UserManager.GetUserId(User)" />
-					}
-					<label class="checkboxLabel" for="@Coin.Name">&#9829</label>
+					<partial name="_AddCoinToFavouriteCheckboxPartial" model="Coin"/>
 				</td>
 			</tr>
 		}

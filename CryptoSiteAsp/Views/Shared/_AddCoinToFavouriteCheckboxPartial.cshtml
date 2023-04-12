@@ -1,0 +1,13 @@
+﻿@using CryptoSiteAsp.Entities
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext DbContext
+@model CryptoCurrencyCoin
+
+@{
+	string userId = UserManager.GetUserId(User);
+	string checkedMode = DbContext.userCryptos.Where(e => e.UserId == userId).
+										Any(e => e.CryptoCurrencyName == Model.Name) ? "checked" : "";
+}
+
+<input class="form-check-input customChechbox" type="checkbox" @checkedMode name="userCoinCheckbox" id="@Model.Name" value="@userId" />
+<label class="checkboxLabel" for="@Model.Name">&#9829</label>
