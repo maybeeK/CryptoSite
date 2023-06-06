@@ -9,7 +9,7 @@
         CoinName: $(this).attr("id")
     };
 
-    if (userModel.Id == null) {
+    if (userModel.Id == null || userModel.Id == "") {
         $(this).prop('checked', false);
         $("#LoginModal").modal('show');
         return;
